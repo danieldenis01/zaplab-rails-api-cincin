@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_125931) do
+ActiveRecord::Schema.define(version: 2020_01_31_142202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,4 +23,21 @@ ActiveRecord::Schema.define(version: 2020_01_31_125931) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "wineries", force: :cascade do |t|
+    t.string "name", limit: 100, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "wines", force: :cascade do |t|
+    t.string "name", limit: 100, null: false
+    t.decimal "price", precision: 10, scale: 2
+    t.boolean "available", default: false
+    t.bigint "manufactory_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["manufactory_by_id"], name: "index_wines_on_manufactory_by_id"
+  end
+
+  add_foreign_key "wines", "wineries", column: "manufactory_by_id"
 end
