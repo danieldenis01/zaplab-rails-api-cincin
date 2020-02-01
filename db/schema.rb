@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_142202) do
+ActiveRecord::Schema.define(version: 2020_02_01_123841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "reviewer_id", null: false
+    t.bigint "wine_id", null: false
+    t.text "description"
+    t.integer "rating"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
+    t.index ["wine_id"], name: "index_reviews_on_wine_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", limit: 300
@@ -39,5 +50,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_142202) do
     t.index ["manufactory_by_id"], name: "index_wines_on_manufactory_by_id"
   end
 
+  add_foreign_key "reviews", "users", column: "reviewer_id"
+  add_foreign_key "reviews", "wines"
   add_foreign_key "wines", "wineries", column: "manufactory_by_id"
 end

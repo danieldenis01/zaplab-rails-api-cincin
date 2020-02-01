@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
     resources :users
 
+    resources :wines do
+      resources :reviews
+    end
+
     resources :wineries
   end
 end
