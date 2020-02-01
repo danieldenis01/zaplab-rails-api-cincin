@@ -5,6 +5,12 @@ class ApplicationController < ActionController::API
     head :unauthorized unless current_user
   end
 
+  def cached_collection(collection)
+    Rails.cache.fetch(collection.cache_key, expire_in: 10.minutes) do
+      ActiveModelSerializers::SerializableResource.new(collection).to_json
+    end
+  end
+
   def current_user
     return @current_user if @current_user
 

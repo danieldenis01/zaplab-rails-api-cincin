@@ -6,7 +6,7 @@ class V1::ReviewsController < ApplicationController
   def index
     @reviews = @wine.reviews.order(created_at: :desc)
 
-    render json: @reviews
+    render json: @reviews#, each_serializer: ReviewSerializer
   end
 
   def create
@@ -14,7 +14,7 @@ class V1::ReviewsController < ApplicationController
     @review.reviewer = current_user
 
     if @review.save
-      render json: @review, status: :created
+      render json: @review, status: :created #, serializer: ReviewSerializer
     else
       render json: @review.errors, status: :unprocessable_entity
     end
