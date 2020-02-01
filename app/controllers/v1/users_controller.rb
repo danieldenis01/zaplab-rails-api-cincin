@@ -1,6 +1,6 @@
 module V1
   class UsersController < ApplicationController
-    before_action :set_user, only: %i[update show]
+    before_action :set_user, only: %i[update show destroy]
 
     def create
       user = User.new(user_params_create)
